@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Autocomplete , useJsApiLoader } from "@react-google-maps/api";
 import { Input } from "@/components/ui/input";
 import { SelectBudgetOptions, SelectTravelList } from "@/constants/options";
@@ -60,7 +60,10 @@ function CreateTrip() {
               <h2 className="text-xl my-3 font-medium">
                 How many days are you planning your trip?
               </h2>
-              <Input placeholder={"Ex.4"} type="number" />
+              <Input placeholder={"Ex.4"} 
+              type="number" 
+              onChange={(e) => handleInputChange("noOfDays", e.target.value)}
+              />
             </div>
 
             {/* Budget */}  
@@ -70,7 +73,10 @@ function CreateTrip() {
                 {SelectBudgetOptions.map((item, index) => (
                   <div
                     key={index}
-                    className="p-4 border cursor-pointer rounded-lg hover:shadow-lg"
+                    onClick={() => handleInputChange("budget", item.title)}
+                    className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg ${
+                      formData?.budget === item.title && "shadow-lg border-black"
+                    }`}
                   >
                     <h2 className="text-4xl">{item.icon}</h2>
                     <h2 className="font-bold text-lg">{item.title}</h2>
@@ -85,7 +91,13 @@ function CreateTrip() {
               <h2 className='text-xl my-3 font-medium'>Who do you plan on traveling with on your next adventure?</h2>
               <div className='grid grid-cols-3 gap-5 mt-5'>
                 {SelectTravelList.map((item, index) => (
-                  <div key={index} className='p-4 border cursor-pointer rounded-lg hover:shadow-lg '>
+                  <div 
+                    key={index} 
+                    onClick={() => handleInputChange("traveler", item.people)}
+                    className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg ${
+                      formData?.traveler === item.people && "shadow-lg border-black"
+                    }`}
+                  >
                     <h2 className='text-4xl'>{item.icon}</h2>
                     <h2 className='font-bold text-lg'>{item.title}</h2>
                     <h2 className='text-sm text-gray-500'>{item.desc}</h2>
