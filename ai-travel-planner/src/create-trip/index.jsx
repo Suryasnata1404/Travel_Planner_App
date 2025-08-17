@@ -1,13 +1,15 @@
 import React, { useState, useRef } from "react";
-import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
+import { Autocomplete , useJsApiLoader } from "@react-google-maps/api";
 import { Input } from "@/components/ui/input";
 import { SelectBudgetOptions, SelectTravelList } from "@/constants/options";
 import { Button } from "@/components/ui/button";
 
+const LIBRARIES = ["places"];
+
 function CreateTrip() {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_PLACE_API_KEY,
-    libraries: ["places"],
+    libraries: LIBRARIES,
   });
 
   const [place, setPlace] = useState(null);
@@ -15,11 +17,11 @@ function CreateTrip() {
 
   const handlePlaceChanged = () => {
     if (autocompleteRef.current) {
-      const placeObj = autocompleteRef.current.getPlace();
-      console.log("Selected Place:", placeObj); // 👀 logs full Google Place object
-      setPlace(placeObj);
+      const place = autocompleteRef.current.getPlace();
+      setPlace(place);
     }
   };
+
 
   return (
     <div className="sm:px-10 md:px-32 lg:px-56 px-5 mt-10">
@@ -41,7 +43,7 @@ function CreateTrip() {
                 What is destination of choice?
               </h2>
               <Autocomplete
-                onLoad={(ac) => (autocompleteRef.current = ac)}
+                onLoad={(ref) => (autocompleteRef.current = ref)}
                 onPlaceChanged={handlePlaceChanged}
               >
                 <Input
@@ -49,9 +51,11 @@ function CreateTrip() {
                   placeholder="Enter a destination"
                   className="w-full p-3 border rounded-lg"
                 />
-              </Autocomplete>
+              </Autocomplete>  
             </div>
-          
+
+
+            {/* Trip Duration */}
             <div>
               <h2 className="text-xl my-3 font-medium">
                 How many days are you planning your trip?
@@ -59,6 +63,7 @@ function CreateTrip() {
               <Input placeholder={"Ex.4"} type="number" />
             </div>
 
+            {/* Budget */}  
             <div>
               <h2 className="text-xl my-3 font-medium">What is Your Budget?</h2>
               <div className="grid grid-cols-3 gap-5 mt-5">
@@ -75,6 +80,7 @@ function CreateTrip() {
               </div>
             </div>
 
+            {/* Travel Companions */}
             <div>
               <h2 className='text-xl my-3 font-medium'>Who do you plan on traveling with on your next adventure?</h2>
               <div className='grid grid-cols-3 gap-5 mt-5'>
@@ -92,6 +98,10 @@ function CreateTrip() {
           <div className='my-10 justify-end flex'> 
             <Button>Generate Trip</Button> 
           </div>
+
+          {/* Debugging: show selected place */}
+          {place && <pre>{JSON.stringify(place, null, 2)}</pre>}
+        
         </>
       )}  
      </div>
