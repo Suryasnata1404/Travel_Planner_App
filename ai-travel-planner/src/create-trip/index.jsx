@@ -14,7 +14,7 @@ function CreateTrip() {
 
   const [place, setPlace] = useState(null);
   const autocompleteRef = useRef(null);
-  const [formData, setFormData] = useState([]);
+  const [formData, setFormData] = useState({});
 
 
   const handleInputChange = (name, value) => {
