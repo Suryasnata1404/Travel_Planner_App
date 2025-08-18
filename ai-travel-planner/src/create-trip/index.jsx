@@ -14,14 +14,19 @@ function CreateTrip() {
 
   const [place, setPlace] = useState(null);
   const autocompleteRef = useRef(null);
+  const [formData, setFormData] = useState([]);
 
-  const handlePlaceChanged = () => {
-    if (autocompleteRef.current) {
-      const place = autocompleteRef.current.getPlace();
-      setPlace(place);
-    }
+
+  const handleInputChange = (name, value) => {
+    setFormData({
+      ...formData,
+      [name]: value
+    })
   };
 
+  useEffect(() => {
+    console.log(formData)
+  }, [formData]);
 
   return (
     <div className="sm:px-10 md:px-32 lg:px-56 px-5 mt-10">
@@ -44,7 +49,17 @@ function CreateTrip() {
               </h2>
               <Autocomplete
                 onLoad={(ref) => (autocompleteRef.current = ref)}
-                onPlaceChanged={handlePlaceChanged}
+                onPlaceChanged={() => {
+                  if (autocompleteRef.current) {
+                    const place = autocompleteRef.current.getPlace();
+                    setPlace(place);
+                    handleInputChange("location", place.formatted_address || place.name);
+
+                    // ✅ Debugging: Log full place object & address
+                    console.log("Selected Place:", place);
+                    console.log("Address:", place.formatted_address || place.name);
+                  }
+                }}
               >
                 <Input
                   type="text"
@@ -74,9 +89,9 @@ function CreateTrip() {
                   <div
                     key={index}
                     onClick={() => handleInputChange("budget", item.title)}
-                    className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg ${
-                      formData?.budget === item.title && "shadow-lg border-black"
-                    }`}
+                    className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg 
+                      ${formData?.budget === item.title && "shadow-lg border-black"}
+                    `}
                   >
                     <h2 className="text-4xl">{item.icon}</h2>
                     <h2 className="font-bold text-lg">{item.title}</h2>
@@ -94,9 +109,9 @@ function CreateTrip() {
                   <div 
                     key={index} 
                     onClick={() => handleInputChange("traveler", item.people)}
-                    className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg ${
-                      formData?.traveler === item.people && "shadow-lg border-black"
-                    }`}
+                    className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg 
+                      ${formData?.traveler === item.people && "shadow-lg border-black"}
+                    `}
                   >
                     <h2 className='text-4xl'>{item.icon}</h2>
                     <h2 className='font-bold text-lg'>{item.title}</h2>
