@@ -63,6 +63,8 @@ function CreateTrip() {
               >
                 <Input
                   type="text"
+                  value={formData.location || ""}
+                  onChange={(e) => handleInputChange("location", e.target.value)}
                   placeholder="Enter a destination"
                   className="w-full p-3 border rounded-lg"
                 />
@@ -76,8 +78,12 @@ function CreateTrip() {
                 How many days are you planning your trip?
               </h2>
               <Input placeholder={"Ex.4"} 
-              type="number" 
-              onChange={(e) => handleInputChange("noOfDays", e.target.value)}
+                type="number" 
+                min="1"
+                onChange={(e) => {
+                  const value = Math.max(1, Number(e.target.value)); 
+                  handleInputChange("noOfDays", e.target.value);
+                }}
               />
             </div>
 
@@ -125,10 +131,7 @@ function CreateTrip() {
           <div className='my-10 justify-end flex'> 
             <Button>Generate Trip</Button> 
           </div>
-
-          {/* Debugging: show selected place */}
-          {place && <pre>{JSON.stringify(place, null, 2)}</pre>}
-        
+          
         </>
       )}  
      </div>
