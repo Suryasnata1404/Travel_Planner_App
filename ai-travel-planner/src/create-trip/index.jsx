@@ -80,19 +80,22 @@ function CreateTrip() {
               <Input placeholder={"Ex.4"} 
                 type="number" 
                 min="1"
+                value={formData.noOfDays || ""}
                 onChange={(e) =>
-              handleInputChange("noOfDays", Number(e.target.value))
-            }
-            className={`w-full p-3 border rounded-lg ${
-              error ? "border-red-500" : "border-gray-300"
-            }`}
-          />
-          {error && (
-            <p className="text-red-500 text-sm mt-1">
-              Trip duration must be at least 1 day.
-            </p>
-          )}
+                  handleInputChange("noOfDays", Number(e.target.value))
+                }
+                className={`w-full p-3 border rounded-lg ${
+                  formData.noOfDays < 1 && formData.noOfDays !== undefined
+                      ? "border-red-500"
+                      : "border-gray-300"
+                }`}
               />
+              {formData.noOfDays < 1 && formData.noOfDays !== undefined && (
+                <p className="text-red-500 text-sm mt-1">
+                  Trip duration must be at least 1 day.
+                </p>
+              )}
+    
             </div>
 
             {/* Budget */}  
