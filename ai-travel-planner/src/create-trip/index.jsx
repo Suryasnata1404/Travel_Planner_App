@@ -80,10 +80,18 @@ function CreateTrip() {
               <Input placeholder={"Ex.4"} 
                 type="number" 
                 min="1"
-                onChange={(e) => {
-                  const value = Math.max(1, Number(e.target.value)); 
-                  handleInputChange("noOfDays", e.target.value);
-                }}
+                onChange={(e) =>
+              handleInputChange("noOfDays", Number(e.target.value))
+            }
+            className={`w-full p-3 border rounded-lg ${
+              error ? "border-red-500" : "border-gray-300"
+            }`}
+          />
+          {error && (
+            <p className="text-red-500 text-sm mt-1">
+              Trip duration must be at least 1 day.
+            </p>
+          )}
               />
             </div>
 
