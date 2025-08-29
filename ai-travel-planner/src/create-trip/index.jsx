@@ -80,22 +80,30 @@ function CreateTrip() {
               <Input placeholder={"Ex.4"} 
                 type="number" 
                 min="1"
+                max="50"
                 value={formData.noOfDays || ""}
-                onChange={(e) =>
-                  handleInputChange("noOfDays", Number(e.target.value))
-                }
+                onKeyDown={(e) => {
+                  // Block invalid keys
+                  if (["e", "E", "+", "-", "."].includes(e.key)) {
+                    e.preventDefault();
+                  }
+                }}
+                onChange={(e) => {
+                  handleInputChange("noOfDays",e.target.value);
+                }}
                 className={`w-full p-3 border rounded-lg ${
-                  formData.noOfDays < 1 && formData.noOfDays !== undefined
-                      ? "border-red-500"
-                      : "border-gray-300"
+                  formData.noOfDays && (formData.noOfDays < 1 || formData.noOfDays > 50)
+                    ? "border-red-500"
+                    : "border-gray-300"
                 }`}
               />
-              {formData.noOfDays < 1 && formData.noOfDays !== undefined && (
+                
+              {formData.noOfDays && (formData.noOfDays < 1 || formData.noOfDays > 50) && (
+      
                 <p className="text-red-500 text-sm mt-1">
-                  Trip duration must be at least 1 day.
+                  Please enter between 1 and 50 days.
                 </p>
               )}
-    
             </div>
 
             {/* Budget */}  
