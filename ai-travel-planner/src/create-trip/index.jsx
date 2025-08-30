@@ -80,7 +80,7 @@ function CreateTrip() {
               <Input placeholder={"Ex.4"} 
                 type="number" 
                 min="1"
-                max="50"
+                max="30"
                 value={formData.noOfDays || ""}
                 onKeyDown={(e) => {
                   // Block invalid keys
@@ -92,16 +92,16 @@ function CreateTrip() {
                   handleInputChange("noOfDays",e.target.value);
                 }}
                 className={`w-full p-3 border rounded-lg ${
-                  formData.noOfDays && (formData.noOfDays < 1 || formData.noOfDays > 50)
+                  formData.noOfDays && (formData.noOfDays < 1 || formData.noOfDays > 30)
                     ? "border-red-500"
                     : "border-gray-300"
                 }`}
               />
                 
-              {formData.noOfDays && (formData.noOfDays < 1 || formData.noOfDays > 50) && (
+              {formData.noOfDays && (formData.noOfDays < 1 || formData.noOfDays > 30) && (
       
                 <p className="text-red-500 text-sm mt-1">
-                  Please enter between 1 and 50 days.
+                  Please enter between 1 and 30 days.
                 </p>
               )}
             </div>
