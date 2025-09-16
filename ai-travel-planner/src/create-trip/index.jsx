@@ -28,6 +28,14 @@ function CreateTrip() {
     console.log(formData)
   }, [formData]);
 
+  const onGenerateTrip = async () => {
+    if(formData?.noOfDays>30)
+    {
+      return ;
+    }
+    console.log(formData);
+  }
+
   return (
     <div className="sm:px-10 md:px-32 lg:px-56 px-5 mt-10">
       {!isLoaded ? (
@@ -148,7 +156,7 @@ function CreateTrip() {
           </div>
 
           <div className='my-10 justify-end flex'> 
-            <Button>Generate Trip</Button> 
+            <Button onClick={onGenerateTrip}>Generate Trip</Button> 
           </div>
           
         </>
