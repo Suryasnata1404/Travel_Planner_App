@@ -3,6 +3,7 @@ import { Autocomplete , useJsApiLoader } from "@react-google-maps/api";
 import { Input } from "@/components/ui/input";
 import { SelectBudgetOptions, SelectTravelList } from "@/constants/options";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const LIBRARIES = ["places"];
 
@@ -29,8 +30,9 @@ function CreateTrip() {
   }, [formData]);
 
   const onGenerateTrip = async () => {
-    if(formData?.noOfDays>30)
+    if(formData?.noOfDays>30&&!formData?.location||!formData?.budget||!formData?.traveler)
     {
+      toast("Please fill all details.");
       return ;
     }
     console.log(formData);
