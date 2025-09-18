@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { AI_PROMPT, SelectBudgetOptions, SelectTravelList } from "@/constants/options";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { generateTravelPlan } from "@/service/AIModel";
 
 const LIBRARIES = ["places"];
 
@@ -44,7 +45,13 @@ function CreateTrip() {
       .replace('{budget}', formData?.budget)
       .replace('{totalDays}', formData?.noOfDays)
       
-     console.log(FINAL_PROMPT)
+    //console.log(FINAL_PROMPT);
+    
+
+
+    const result = await generateTravelPlan(FINAL_PROMPT);
+    //console.log(result?.response?.text());
+    
 
   }
 

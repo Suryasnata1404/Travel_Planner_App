@@ -4,6 +4,7 @@ const apiKey = import.meta.env.VITE_GOOGLE_GEMINI_AI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); // Use latest model
+//console.log("Gemini API key:", apiKey ? "Loaded ✅" : "Not found ❌");
 
 const generationConfig = {
   temperature: 1,
@@ -13,7 +14,7 @@ const generationConfig = {
   responseMimeType: "application/json",
 };
 
-export async function generateTravelPlan(location, days, travelers, budget) {
+export async function generateTravelPlan(location, totalDays, traveler, budget) {
   const AI_PROMPT = `Generate a travel plan for:
   - Location: ${location}
   - Days: ${totalDays}
