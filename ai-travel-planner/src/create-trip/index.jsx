@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Autocomplete , useJsApiLoader } from "@react-google-maps/api";
 import { Input } from "@/components/ui/input";
-import { SelectBudgetOptions, SelectTravelList } from "@/constants/options";
+import { AI_PROMPT, SelectBudgetOptions, SelectTravelList } from "@/constants/options";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -30,12 +30,22 @@ function CreateTrip() {
   }, [formData]);
 
   const onGenerateTrip = async () => {
-    if(formData?.noOfDays>30&&!formData?.location||!formData?.budget||!formData?.traveler)
+    if(formData?.noOfDays>30 || !formData?.location || !formData?.budget || !formData?.traveler)
+      
     {
       toast("Please fill all details.");
       return ;
     }
-    console.log(formData);
+    
+    const FINAL_PROMPT = AI_PROMPT
+      .replace('{location}', formData?.location?.label)
+      .replace('{totalDays}', formData?.noOfDays)
+      .replace('{traveler}', formData?.traveler)
+      .replace('{budget}', formData?.budget)
+      .replace('{totalDays}', formData?.noOfDays)
+      
+     console.log(FINAL_PROMPT)
+
   }
 
   return (
