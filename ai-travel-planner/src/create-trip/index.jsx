@@ -5,6 +5,15 @@ import { AI_PROMPT, SelectBudgetOptions, SelectTravelList } from "@/constants/op
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { generateTravelPlan } from "@/service/AIModel";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 
 const LIBRARIES = ["places"];
 
@@ -192,6 +201,16 @@ function CreateTrip() {
             <Button onClick={onGenerateTrip}>Generate Trip</Button> 
           </div>
           
+          <Dialog open={openDialog}>
+            
+            <DialogContent>
+              <DialogHeader>
+                <DialogDescription>
+                   <img src="/logo.svg" class="w-16 sm:w-50 md:w-50 h-auto mx-auto" alt="Logo" />
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </>
       )}  
      </div>
