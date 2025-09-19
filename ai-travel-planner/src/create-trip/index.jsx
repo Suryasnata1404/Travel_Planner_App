@@ -45,11 +45,16 @@ function CreateTrip() {
       .replace('{budget}', formData?.budget)
       .replace('{totalDays}', formData?.noOfDays)
       
-    //console.log(FINAL_PROMPT);
+    console.log(FINAL_PROMPT);
     
 
 
-    const result = await generateTravelPlan(FINAL_PROMPT);
+    const result = await generateTravelPlan(
+      formData?.location,
+      formData?.noOfDays,   
+      formData?.traveler,
+      formData?.budget
+    );
     //console.log(result?.response?.text());
     
 
