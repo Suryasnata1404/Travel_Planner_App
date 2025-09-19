@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog"
 import { FcGoogle } from "react-icons/fc";
 import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 
 const LIBRARIES = ["places"];
@@ -83,6 +84,19 @@ function CreateTrip() {
     console.log("AI Response:", result);
     
 
+  }
+
+  const GetUserProfile = (tokenInfo) => {
+    axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,{
+      headers:{
+        Authorization:`Bearer ${tokenInfo?.access_token}`,
+        Accept:`Application/json`
+
+      }
+    }).then{(resp) =>{
+      console.log(resp);
+      
+    }};
   }
 
   return (
@@ -220,7 +234,7 @@ function CreateTrip() {
                   <Button
                     onClick={login}
                     className="w-full mt-5 flex gap-4 items-center">
-                    <FcGoogle className="h-7 w-7" />
+                    <FcGoogle className="h-7 w-15" />
                     Sign In With Google
                   </Button>
 
