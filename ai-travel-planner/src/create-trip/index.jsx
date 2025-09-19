@@ -17,6 +17,7 @@ function CreateTrip() {
   const [place, setPlace] = useState(null);
   const autocompleteRef = useRef(null);
   const [formData, setFormData] = useState({});
+  const [openDialog, setOpenDialog] = useState(false);
 
 
   const handleInputChange = (name, value) => {
@@ -31,6 +32,14 @@ function CreateTrip() {
   }, [formData]);
 
   const onGenerateTrip = async () => {
+
+    const user = localStorage.getItem('user');
+    if (!user) {
+      setOpenDialog(true)
+      return;
+    }
+
+
     if(formData?.noOfDays>30 || !formData?.location || !formData?.budget || !formData?.traveler)
       
     {

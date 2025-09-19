@@ -6,6 +6,7 @@ import { RouterProvider , createBrowserRouter } from 'react-router-dom'
 import CreateTrip from './create-trip'
 import Header from './components/ui/custom/Header'
 import { Toaster } from './components/ui/sonner'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 const router= createBrowserRouter([
   {
@@ -21,8 +22,11 @@ const router= createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Header/>
-    <Toaster />
-    <RouterProvider router={router} />
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}>
+      <Header/>
+      <Toaster />
+      <RouterProvider router={router} />
+    </GoogleOAuthProvider>;
+    
   </StrictMode>,
 )
