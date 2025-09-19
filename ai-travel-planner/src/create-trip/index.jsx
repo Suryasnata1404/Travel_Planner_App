@@ -13,6 +13,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin } from "@react-oauth/google";
 
 
 const LIBRARIES = ["places"];
@@ -39,6 +41,11 @@ function CreateTrip() {
   useEffect(() => {
     console.log(formData)
   }, [formData]);
+
+  const login=useGoogleLogin({
+    onSuccess:(codeResponse)=>console.log(codeResponse),
+    onError:(error)=>console.log(error)
+  })
 
   const onGenerateTrip = async () => {
 
@@ -206,7 +213,18 @@ function CreateTrip() {
             <DialogContent>
               <DialogHeader>
                 <DialogDescription>
-                   <img src="/logo.svg" class="w-16 sm:w-50 md:w-50 h-auto mx-auto" alt="Logo" />
+                  <img src="/logo.svg" alt="logo" width="65px" className='items-center' />
+                  <h2 className='font-bold text-lg'>Sign In to check out your travel plan</h2>
+                  <p>Sign in to the App with Google authentication securely</p>
+                  
+                  <Button
+                    onClick={login}
+                    className="w-full mt-5 flex gap-4 items-center">
+                    <FcGoogle className="h-7 w-7" />
+                    Sign In With Google
+                  </Button>
+
+
                 </DialogDescription>
               </DialogHeader>
             </DialogContent>
