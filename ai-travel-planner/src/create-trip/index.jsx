@@ -44,18 +44,18 @@ function CreateTrip() {
       .replace('{traveler}', formData?.traveler)
       .replace('{budget}', formData?.budget)
       .replace('{totalDays}', formData?.noOfDays)
-      
+
     console.log(FINAL_PROMPT);
     
-
-
+    // ✅ Pass values separately since AIModel expects (location, totalDays, traveler, budget)
     const result = await generateTravelPlan(
-      formData?.location,
-      formData?.noOfDays,   
+      formData?.location?.label || formData?.location,
+      formData?.noOfDays,
       formData?.traveler,
       formData?.budget
     );
-    //console.log(result?.response?.text());
+  
+    console.log("AI Response:", result);
     
 
   }
