@@ -84,7 +84,10 @@ function CreateTrip() {
 
   const login= useGoogleLogin({
     onSuccess:(Response)=>GetUserProfile(Response),
-    onError:(error)=>console.log(error)
+    onError:(error)=> {
+      toast.error("Google login failed. Please try again.");
+      console.error(error);
+    }
   })
 
   const GetUserProfile = (tokenInfo) => {
