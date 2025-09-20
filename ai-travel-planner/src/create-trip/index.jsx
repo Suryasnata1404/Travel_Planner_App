@@ -165,7 +165,7 @@ function CreateTrip() {
                   }
                 }}
                 onChange={(e) => {
-                  handleInputChange("noOfDays",e.target.value);
+                  handleInputChange("noOfDays",Number(e.target.value));
                 }}
                 className={`w-full p-3 border rounded-lg ${
                   formData.noOfDays && (formData.noOfDays < 1 || formData.noOfDays > 30)
