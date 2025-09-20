@@ -43,10 +43,6 @@ function CreateTrip() {
     console.log(formData)
   }, [formData]);
 
-  const login=useGoogleLogin({
-    onSuccess:(codeResponse)=>console.log(codeResponse),
-    onError:(error)=>console.log(error)
-  })
 
   const onGenerateTrip = async () => {
 
@@ -73,7 +69,7 @@ function CreateTrip() {
 
     console.log(FINAL_PROMPT);
     
-    // ✅ Pass values separately since AIModel expects (location, totalDays, traveler, budget)
+    // Pass values separately since AIModel expects (location, totalDays, traveler, budget)
     const result = await generateTravelPlan(
       formData?.location?.label || formData?.location,
       formData?.noOfDays,
@@ -86,6 +82,11 @@ function CreateTrip() {
 
   }
 
+  const login= useGoogleLogin({
+    onSuccess:(Response)=>GetUserProfile(Response),
+    onError:(error)=>console.log(error)
+  })
+
   const GetUserProfile = (tokenInfo) => {
     axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,{
       headers:{
@@ -93,10 +94,14 @@ function CreateTrip() {
         Accept:`Application/json`
 
       }
-    }).then{(resp) =>{
+    }).then((resp) =>{
       console.log(resp);
-      
-    }};
+      localStorage.setItem('user', JSON.stringify(resp.data));
+      setOpenDialog(false);
+      onGenerateTrip();
+    }).catch((error) => {
+      console.error("Error fetching user profile: ", error);
+    });
   }
 
   return (
@@ -222,7 +227,7 @@ function CreateTrip() {
             <Button onClick={onGenerateTrip}>Generate Trip</Button> 
           </div>
           
-          <Dialog open={openDialog}>
+          <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             
             <DialogContent>
               <DialogHeader>
@@ -237,7 +242,6 @@ function CreateTrip() {
                     <FcGoogle className="h-7 w-15" />
                     Sign In With Google
                   </Button>
-
 
                 </DialogDescription>
               </DialogHeader>
