@@ -129,7 +129,7 @@ function CreateTrip() {
                   if (autocompleteRef.current) {
                     const place = autocompleteRef.current.getPlace();
                     setPlace(place);
-                    handleInputChange("location", place.formatted_address || place.name);
+                    handleInputChange("location", place.formatted_address || place.name || "");
 
                     // ✅ Debugging: Log full place object & address
                     console.log("Selected Place:", place);
