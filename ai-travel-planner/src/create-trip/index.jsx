@@ -48,7 +48,7 @@ function CreateTrip() {
 
     const user = localStorage.getItem('user');
     if (!user) {
-      setOpenDialog(true)
+      setOpenDialog(true);
       return;
     }
 
