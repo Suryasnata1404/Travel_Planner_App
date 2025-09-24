@@ -16,6 +16,8 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/service/firebaseConfig";
 
 
 const LIBRARIES = ["places"];
@@ -89,6 +91,20 @@ function CreateTrip() {
       console.error(error);
     }
   })
+
+  const SaveAiTrip = async(TripData) =>{
+     
+      const user = JSON.parse(localStorage.getItem('user'))
+      const docId = Date.now().toString();
+      // Add a new document in collection "AITrips"
+      await setDoc(doc(db, "AITrips", docId), {
+        userSelection: formData,
+        tripData: JSON.parse(TripData),
+        userEmail: user?.email,
+        id: docId
+      });
+
+  }
 
   const GetUserProfile = (tokenInfo) => {
     axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,{
