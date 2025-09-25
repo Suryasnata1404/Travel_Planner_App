@@ -18,7 +18,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/service/firebaseConfig";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const LIBRARIES = ["places"];
 
@@ -33,7 +33,7 @@ function CreateTrip() {
   const [formData, setFormData] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
 
-  const [Loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (name, value) => {
     setFormData({
@@ -251,7 +251,15 @@ function CreateTrip() {
           </div>
 
           <div className='my-10 justify-end flex'> 
-            <Button onClick={onGenerateTrip}>Generate Trip</Button> 
+            <Button onClick={onGenerateTrip} disabled={loading}>
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <AiOutlineLoading3Quarters className='h-7 w-7 animate-spin' />
+                  <p>Generating...</p>
+                </div>
+              )  : "Generate Trip"}
+            </Button> 
+
           </div>
           
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
