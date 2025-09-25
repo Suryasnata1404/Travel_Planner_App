@@ -33,6 +33,7 @@ function CreateTrip() {
   const [formData, setFormData] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
 
+  const [Loading, setLoading] = useState(false);
 
   const handleInputChange = (name, value) => {
     setFormData({
@@ -62,6 +63,7 @@ function CreateTrip() {
       return ;
     }
     
+    setLoading(true);
     const FINAL_PROMPT = AI_PROMPT
       .replace('{location}', formData?.location?.label)
       .replace('{totalDays}', formData?.noOfDays)
@@ -69,7 +71,7 @@ function CreateTrip() {
       .replace('{budget}', formData?.budget)
       .replace('{totalDays}', formData?.noOfDays)
 
-    console.log(FINAL_PROMPT);
+    //console.log(FINAL_PROMPT);
     
     // Pass values separately since AIModel expects (location, totalDays, traveler, budget)
     const result = await generateTravelPlan(
@@ -81,7 +83,8 @@ function CreateTrip() {
   
     console.log("AI Response:", result);
 
-    console.log(result?.response?.text());
+    console.log("--",result?.response?.text());
+    setLoading(false);
     SaveAiTrip(result?.response?.text());
     
   }
@@ -96,6 +99,7 @@ function CreateTrip() {
 
   const SaveAiTrip = async(TripData) =>{
      
+    setLoading(true);
       const user = JSON.parse(localStorage.getItem('user'))
       const docId = Date.now().toString();
       // Add a new document in collection "AITrips"
@@ -105,6 +109,8 @@ function CreateTrip() {
         userEmail: user?.email,
         id: docId
       });
+
+      setLoading(false);
 
   }
 
