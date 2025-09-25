@@ -80,8 +80,10 @@ function CreateTrip() {
     );
   
     console.log("AI Response:", result);
-    
 
+    console.log(result?.response?.text());
+    SaveAiTrip(result?.response?.text());
+    
   }
 
   const login= useGoogleLogin({
