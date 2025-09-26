@@ -5,7 +5,6 @@ GoTravel is an **AI-powered travel planning web app** that makes your journey sm
 
 ---
 
-
 ## 💻 Technologies  
 
 ### Frontend  
