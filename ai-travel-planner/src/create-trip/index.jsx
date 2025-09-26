@@ -99,19 +99,31 @@ function CreateTrip() {
   const SaveAiTrip = async(TripData) =>{
      
     setLoading(true);
-      const user = JSON.parse(localStorage.getItem('user'))
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user?.email) {
+        toast.error("User not logged in. Please login again.");
+        return;
+      }
+
       const docId = Date.now().toString();
+
       // Add a new document in collection "AITrips"
-      await setDoc(doc(db, "AITrips", docId), {
-        userSelection: formData,
-        tripData: JSON.parse(TripData),
-        userEmail: user?.email,
-        id: docId
-      });
-
+      try {
+        await setDoc(doc(db, "AITrips", docId), {
+          userSelection: formData,
+          tripData: JSON.parse(TripData),
+          userEmail: user?.email,
+          id: docId
+        });
+        toast.success("Trip saved successfully!");
+      } catch (error) {
+        console.error("Firestore save error:", error);
+        toast.error("Failed to save trip. Try again.");
+      }
+      
       setLoading(false);
-
-  }
+  
+  };
 
   const GetUserProfile = (tokenInfo) => {
     axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,{
