@@ -56,38 +56,37 @@ function CreateTrip() {
     }
 
 
-    if(formData?.noOfDays>30 || !formData?.location || !formData?.budget || !formData?.traveler)
-      
-    {
+    if(formData?.noOfDays>30 || !formData?.location || !formData?.budget || !formData?.traveler) {
       toast("Please fill all details.");
       return ;
     }
     
     setLoading(true);
-    const FINAL_PROMPT = AI_PROMPT
-      .replace('{location}', formData?.location?.label)
-      .replace('{totalDays}', formData?.noOfDays)
-      .replace('{traveler}', formData?.traveler)
-      .replace('{budget}', formData?.budget)
-      .replace('{totalDays}', formData?.noOfDays)
 
-    //console.log(FINAL_PROMPT);
-    
-    // Pass values separately since AIModel expects (location, totalDays, traveler, budget)
-    const result = await generateTravelPlan(
-      formData?.location?.label || formData?.location,
-      formData?.noOfDays,
-      formData?.traveler,
-      formData?.budget
-    );
-  
-    console.log("AI Response:", result);
+    try {
+      const result = await generateTravelPlan(
+        formData?.location?.label || formData?.location,
+        formData?.noOfDays,
+        formData?.traveler,
+        formData?.budget
+      );
 
-    console.log("--",result?.response?.text());
-    setLoading(false);
-    SaveAiTrip(result?.response?.text());
-    
-  }
+      console.log("AI Parsed Response:", result); // ✅ already a JS object
+
+      if (!result) {
+        toast.error("Failed to generate trip. Please try again.");
+        return;
+      }
+
+      await SaveAiTrip(result); // ✅ send parsed object directly
+    } catch (err) {
+      console.error("Error generating trip:", err);
+      toast.error("Something went wrong while generating trip.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const login= useGoogleLogin({
     onSuccess:(Response)=>GetUserProfile(Response),
