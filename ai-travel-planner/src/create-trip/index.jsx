@@ -71,7 +71,7 @@ function CreateTrip() {
         formData?.budget
       );
 
-      console.log("AI Parsed Response:", result); // ✅ already a JS object
+      console.log("AI Response:", result); // ✅ already a JS object
 
       if (!result) {
         toast.error("Failed to generate trip. Please try again.");
@@ -111,7 +111,7 @@ function CreateTrip() {
       try {
         await setDoc(doc(db, "AITrips", docId), {
           userSelection: formData,
-          tripData: JSON.parse(TripData),
+          tripData: TripData, // ✅ keep it as object
           userEmail: user?.email,
           id: docId
         });
