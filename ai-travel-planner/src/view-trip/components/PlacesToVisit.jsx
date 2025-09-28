@@ -1,4 +1,5 @@
 import React from 'react'
+import PlaceCardItem from './PlaceCardItem'
 
 export default function PlacesToVisit({trip}) {
   return (
@@ -6,16 +7,18 @@ export default function PlacesToVisit({trip}) {
         <h2 className='font-bold text-xl'>Places to Visit</h2>
         <div>
             {trip.tripData?.itinerary?.map((item,index)=>(
-                <div>
+                <div className='mt-5'>
                     <h2 className='font-medium text-lg'>Day {item.day}</h2>
-                    {item.plan.map((visitPlace,index)=>(
+                    <div className='grid md:grid-cols-2 gap-5'>
+                    {item.plan.map((Place,index)=>(
                         
                         <div  className='my-2'>
-                            <h2 className='font-medium text-sm text-orange-600'>{visitPlace.time}</h2>
-                            <h2>{visitPlace.place}</h2>
+                            <h2 className='font-medium text-sm text-orange-600'>{Place.time}</h2>
+                            <PlaceCardItem Place={Place} />
                         </div>
 
                     ))}
+                    </div>
                 </div>
             ))}
         </div>
