@@ -7,11 +7,11 @@ import { toast } from 'sonner';
 
 function Viewtrip() {
   const {tripId}=useParams();
-  const [trip, setTrip] = useState([])
+  const [trip, setTrip] = useState([]);
 
-    useEffect(() => {
-        tripId && GetTripData()
-    }, [tripId])
+  useEffect(() => {
+      tripId && GetTripData()
+  }, [tripId])
 
   // used to get trip info from firebase
 
@@ -19,20 +19,22 @@ function Viewtrip() {
     const docRef = doc(db, 'AITrips', tripId);
     const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-            console.log("Document: ",docSnap.data() )
-            setTrip(docSnap.data());
-        }
+    if (docSnap.exists()) {
+        console.log("Document: ",docSnap.data() )
+        setTrip(docSnap.data());
+    }
 
-        else {
-            console.log("No such document");
-            toast("No trip found")
-        }
+    else {
+        console.log("No such document");
+        toast("No trip found")
+    }
 
   }
 
   return (
-    <div>Viewtrip: {tripId}</div>
+    <div>
+      
+    </div>
   )
 }
 
