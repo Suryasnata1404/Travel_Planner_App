@@ -1,13 +1,32 @@
 import { Button } from '@/components/ui/button'
-import React from 'react'
-import { FaMapLocationDot } from "react-icons/fa6";
+import { GetPlaceDetails, PHOTO_REF_URL } from '@/service/GlobalApi';
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 
 function PlaceCardItem({Place}) {
+
+  const [photoUrl, setPhotoUrl] = useState();
+
+    useEffect(() => {
+        Place && GetPlacePhoto();
+    }, [Place])
+
+    const GetPlacePhoto = async () => {
+        const data = {
+            textQuery: Place.place
+        }
+        const result = await GetPlaceDetails(data).then(resp => {
+            const PhotoUrl = PHOTO_REF_URL.replace('{NAME}', resp.data.places[0].photos[3].name)
+            setPhotoUrl(PhotoUrl)
+        })
+    }
+    
+
   return (
     <Link to={"https://www.google.com/maps/search/?api=1&query=" +Place?.place} target="_blank" >
+      
         <div  className='shadow-sm border rounded-xl p-3 mt-2 flex gap-5 hover:scale-105 hover:shadow-md cursor-pointer transition-all'>
-            <img src='/placeholder.jpg'
+            <img src={photoUrl?photoUrl:'/placeholder.jpg'} alt="img" 
             className='w-[130px] h-[130px] rounded-xl object-cover'
             />
             <div>
