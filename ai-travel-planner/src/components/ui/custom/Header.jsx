@@ -58,9 +58,11 @@ function Header() {
       <div>
         {user ? (
           <div className="flex items-center gap-3">
+            <a href="/my-trips">
             <Button variant="outline" className="rounded-full">
               My Trips
             </Button>
+            </a>
 
             <Popover>
               <PopoverTrigger>
