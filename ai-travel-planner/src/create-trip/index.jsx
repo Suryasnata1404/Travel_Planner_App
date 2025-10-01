@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Autocomplete , useJsApiLoader } from "@react-google-maps/api";
 import { Input } from "@/components/ui/input";
 import { AI_PROMPT, SelectBudgetOptions, SelectTravelList } from "@/constants/options";
 import { Button } from "@/components/ui/button";
@@ -20,23 +19,21 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/service/firebaseConfig";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { getPlaceSuggestions } from "@/service/PlacesApi";
 
-const LIBRARIES = ["places"];
 
 function CreateTrip() {
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_PLACE_API_KEY,
-    libraries: LIBRARIES,
-  });
 
-  const [place, setPlace] = useState(null);
-  const autocompleteRef = useRef(null);
   const [formData, setFormData] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
-
   const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
+
+  const [suggestions, setSuggestions] = useState([]);
+  const [query, setQuery] = useState("");
 
   const navigate = useNavigate();
+
   const handleInputChange = (name, value) => {
     setFormData({
       ...formData,
@@ -48,7 +45,32 @@ function CreateTrip() {
     console.log(formData)
   }, [formData]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => setPageLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
+
+  // ✅ Geoapify search
+  const handleSearch = async (value) => {
+    setQuery(value);
+    if (value.length < 3) {
+      setSuggestions([]);
+      return;
+    }
+    const results = await getPlaceSuggestions(value);
+    setSuggestions(results);
+  };
+
+  const handleSelectSuggestion = (place) => {
+    const label = place.properties.formatted;
+    setQuery(label);
+    setSuggestions([]);
+    handleInputChange("location", label);
+    console.log("Selected Geoapify Place:", place);
+  };
+
+  //Generate AI Trip
   const onGenerateTrip = async () => {
 
     const user = localStorage.getItem('user');
@@ -90,14 +112,7 @@ function CreateTrip() {
   };
 
 
-  const login= useGoogleLogin({
-    onSuccess:(Response)=>GetUserProfile(Response),
-    onError:(error)=> {
-      toast.error("Google login failed. Please try again.");
-      console.error(error);
-    }
-  })
-
+  //Save to Firestore
   const SaveAiTrip = async(TripData) =>{
      
     setLoading(true);
@@ -128,12 +143,20 @@ function CreateTrip() {
   
   };
 
+  //Google login
+  const login= useGoogleLogin({
+    onSuccess:(Response)=>GetUserProfile(Response),
+    onError:(error)=> {
+      toast.error("Google login failed. Please try again.");
+      console.error(error);
+    }
+  })
+
   const GetUserProfile = (tokenInfo) => {
     axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,{
       headers:{
         Authorization:`Bearer ${tokenInfo?.access_token}`,
         Accept:`Application/json`
-
       }
     }).then((resp) =>{
       console.log(resp);
@@ -146,11 +169,12 @@ function CreateTrip() {
   }
 
   return (
+    <>
+    {pageLoading ? (
+      <p>Loading...</p>
+    ) : (
     <div className="sm:px-10 md:px-32 lg:px-56 px-5 mt-10">
-      {!isLoaded ? (
-        <p>Loading...</p>
-      ) : (
-        <>
+
           <h2 className="font-bold text-3xl">
             Tell us your travel preferences🏕️🌴
           </h2>
@@ -164,28 +188,30 @@ function CreateTrip() {
               <h2 className="text-xl my-3 font-medium">
                 What is destination of choice?
               </h2>
-              <Autocomplete
-                onLoad={(ref) => (autocompleteRef.current = ref)}
-                onPlaceChanged={() => {
-                  if (autocompleteRef.current) {
-                    const place = autocompleteRef.current.getPlace();
-                    setPlace(place);
-                    handleInputChange("location", place.formatted_address || place.name || "");
+              <div className="relative">
+              <Input
+                type="text"
+                value={query}
+                onChange={(e) => handleSearch(e.target.value)}
+                placeholder="Enter a destination"
+                className="w-full p-3 border rounded-lg"
+              />
 
-                    // ✅ Debugging: Log full place object & address
-                    console.log("Selected Place:", place);
-                    console.log("Address:", place.formatted_address || place.name);
-                  }
-                }}
-              >
-                <Input
-                  type="text"
-                  value={formData.location || ""}
-                  onChange={(e) => handleInputChange("location", e.target.value)}
-                  placeholder="Enter a destination"
-                  className="w-full p-3 border rounded-lg"
-                />
-              </Autocomplete>  
+              {suggestions.length > 0 && (
+                <ul className="absolute bg-white border w-full rounded-lg mt-1 max-h-60 overflow-auto shadow-lg z-10">
+                  {suggestions.map((sug) => (
+                    <li
+                      key={sug.properties.place_id}
+                      onClick={() => handleSelectSuggestion(sug)}
+                      className="p-2 cursor-pointer hover:bg-gray-100"
+                    >
+                      {sug.properties.formatted}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
             </div>
 
 
@@ -296,9 +322,11 @@ function CreateTrip() {
               </DialogHeader>
             </DialogContent>
           </Dialog>
-        </>
-      )}  
+        
+ 
      </div>
+    )}
+  </> 
   );
 }
 
