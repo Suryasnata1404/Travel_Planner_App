@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 const GEOAPIFY_API_KEY = import.meta.env.VITE_GEOAPIFY_API_KEY;
 
 export const getPlaceSuggestions = async (inputText) => {
@@ -13,6 +15,7 @@ export const getPlaceSuggestions = async (inputText) => {
     return data.features || [];
   } catch (error) {
     console.error("Geoapify Autocomplete Error:", error);
+    toast.error("Location service unavailable");
     return [];
   }
 };
