@@ -50,6 +50,13 @@ function CreateTrip() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+  const delay = setTimeout(() => {
+    if (query.length >= 3) handleSearch(query);
+  }, 400);
+  return () => clearTimeout(delay);
+}, [query]);
+
 
   // ✅ Geoapify search
   const handleSearch = async (value) => {
