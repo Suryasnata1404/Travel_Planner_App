@@ -1,28 +1,33 @@
-import { GetPlaceDetails, PHOTO_REF_URL } from '@/service/GlobalApi';
+import { getPlaceImage } from '@/service/UnsplashApi';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function HotelCardItem({hotel}) {
 
-    const [photoUrl, setPhotoUrl] = useState();
+    const [photoUrl, setPhotoUrl] = useState(null);
     
         useEffect(() => {
-            hotel && GetPlacePhoto();
-        }, [hotel])
-    
-        const GetPlacePhoto = async () => {
-            const data = {
-                textQuery: hotel?.name
+            if (hotel?.name) {
+              fetchHotelImage();
             }
-            const result = await GetPlaceDetails(data).then(resp => {
-                console.log(resp.data.places[0].photos[3].name)
-                const PhotoUrl = PHOTO_REF_URL.replace('{NAME}', resp.data.places[0].photos[3].name)
-                setPhotoUrl(PhotoUrl)
-            })
-        }
+        }, [hotel]);
+    
+        const fetchHotelImage = async () => {
+          try {
+            const query = `${hotel.name} hotel`;
+            const image = await getPlaceImage(query);
+            setPhotoUrl(image);
+          } catch (error) {
+            console.error('Unsplash Hotel Image Error:', error);
+            setPhotoUrl(null);
+          }
+        };
+
 
   return (
-    <Link to={"https://www.google.com/maps/search/?api=1&query=" +hotel?.name +"," +hotel?.address} target="_blank" >
+    <Link to={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hotel?.name + ',' + hotel?.address)}`}
+      target="_blank"
+    >
             <div className="hover:scale-110 transition-all cursor-pointer mt-5 mb-8">
               <img src={photoUrl?photoUrl:'/placeholder.jpg'} alt="img" className="rounded-xl h-[180px] w-full object-cover" />
               <div className="my-2 flex flex-col gap-2">
