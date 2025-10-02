@@ -1,27 +1,24 @@
 import { Button } from '@/components/ui/button';
-import { GetPlaceDetails, PHOTO_REF_URL } from '@/service/GlobalApi';
+import { getPlaceImage } from '@/service/ImageApi';
 import React, { useEffect, useState } from 'react'
 
 
 function InfoSection({trip}) {
 
-  const [photoUrl, setPhotoUrl] = useState();
+  const [photoUrl, setPhotoUrl] = useState(null);
 
     useEffect(() => {
-        trip && GetPlacePhoto();
+        if (trip?.userSelection?.location) {
+          fetchImageFromUnsplash(trip.userSelection.location);
+        }
     }, [trip])
 
-    const GetPlacePhoto = async () => {
-        const data = {
-            textQuery: trip?.userSelection?.location
-        }
-        const result = await GetPlaceDetails(data).then(resp => {
-            console.log(resp.data.places[0].photos[3].name)
-            const PhotoUrl = PHOTO_REF_URL.replace('{NAME}', resp.data.places[0].photos[3].name)
-            setPhotoUrl(PhotoUrl)
-        })
-    }
-    
+    const fetchImageFromUnsplash = async (placeName) => {
+        const imageUrl = await getPlaceImage(placeName);
+        setPhotoUrl(imageUrl);
+    };
+
+
   return (
     <div>
         <img src={photoUrl?photoUrl:'/placeholder.jpg'} alt="img"  className='h-[340px] w-full object-cover rounded-xl' />
