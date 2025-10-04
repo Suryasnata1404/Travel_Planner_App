@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button';
 import { getPlaceImage } from '@/service/ImageApi';
 import React, { useEffect, useState } from 'react'
 
-
 function InfoSection({trip}) {
 
   const [photoUrl, setPhotoUrl] = useState(null);
