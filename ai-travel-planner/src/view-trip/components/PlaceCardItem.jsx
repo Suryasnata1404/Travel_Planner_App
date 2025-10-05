@@ -1,30 +1,37 @@
 import { Button } from '@/components/ui/button'
-import { GetPlaceDetails, PHOTO_REF_URL } from '@/service/GlobalApi';
+import { getPlaceImage } from '@/service/UnsplashApi';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 
 function PlaceCardItem({Place}) {
 
-  const [photoUrl, setPhotoUrl] = useState();
+  const [photoUrl, setPhotoUrl] = useState(null);
 
     useEffect(() => {
-        Place && GetPlacePhoto();
+        if (Place?.place) {
+            fetchPlaceImage();
+        }   
     }, [Place])
 
-    const GetPlacePhoto = async () => {
-        const data = {
-            textQuery: Place.place
+    const fetchPlaceImage = async () => {
+        try {
+        // ✅ Using place name for Unsplash search
+        const query = `${Place.place} tourist attraction`;
+        const image = await getPlaceImage(query);
+        setPhotoUrl(image);
+        } catch (error) {
+        console.error("Unsplash Place Image Error:", error);
+        setPhotoUrl(null);
         }
-        const result = await GetPlaceDetails(data).then(resp => {
-            const PhotoUrl = PHOTO_REF_URL.replace('{NAME}', resp.data.places[0].photos[3].name)
-            setPhotoUrl(PhotoUrl)
-        })
-    }
+    };
     
 
   return (
-    <Link to={"https://www.google.com/maps/search/?api=1&query=" +Place?.place} target="_blank" >
-      
+    <Link to={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        Place?.place
+      )}`}
+      target="_blank"
+    >
         <div  className='shadow-sm border rounded-xl p-3 mt-2 flex gap-5 hover:scale-105 hover:shadow-md cursor-pointer transition-all'>
             <img src={photoUrl?photoUrl:'/placeholder.jpg'} alt="img" 
             className='w-[130px] h-[130px] rounded-xl object-cover'
