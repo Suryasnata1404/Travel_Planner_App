@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { getPlaceImage } from '@/service/ImageApi';
+import { getPlaceImage } from '@/service/UnsplashApi';
 import React, { useEffect, useState } from 'react'
 
 function InfoSection({trip}) {
