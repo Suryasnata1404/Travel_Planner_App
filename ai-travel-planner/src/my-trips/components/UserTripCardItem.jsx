@@ -15,7 +15,7 @@ function UserTripCardItem({trip}) {
       if (!location) return;
 
       const imageUrl = await getPlaceImage(location);
-      setPhotoUrl(url);
+      setPhotoUrl(imageUrl);
     } catch (error) {
       console.error("Error fetching Unsplash image:", error);
     }
