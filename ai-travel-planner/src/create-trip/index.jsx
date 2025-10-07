@@ -91,7 +91,6 @@ function CreateTrip() {
       toast("Please fill all details.");
       return ;
     }
-    
     setLoading(true);
 
     try {
