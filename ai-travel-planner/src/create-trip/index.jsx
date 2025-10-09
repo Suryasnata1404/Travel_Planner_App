@@ -21,7 +21,6 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { getPlaceSuggestions } from "@/service/PlacesApi";
 
-
 function CreateTrip() {
 
   const [formData, setFormData] = useState({});
