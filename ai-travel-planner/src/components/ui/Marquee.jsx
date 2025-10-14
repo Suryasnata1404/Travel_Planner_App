@@ -5,22 +5,24 @@ import React from "react";
 
 export default function MarqueeWrapper({
   className ,
-  reverse = false,
+  reverse = false, // true = scrolls right, false = left
   pauseOnHover = false,
   children,
   vertical = false,
-  repeat = 4,
+  repeat = 2,
   ...props
 }) {
+
+  // Handle direction and hover pause
+  const directionClass = reverse ? "direction-reverse" : "";
+  const pauseClass = pauseOnHover ? "group-hover:[animation-play-state:paused]" : "";
+
   return (
     <div
       {...props}
       className={cn(
         "group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]",
-        {
-          "flex-row": !vertical,
-          "flex-col": vertical,
-        },
+        vertical ? "flex-col" : "flex-row",
         className
       )}
     >
@@ -29,12 +31,12 @@ export default function MarqueeWrapper({
         .map((_, i) => (
           <div
             key={i}
-            className={cn("flex shrink-0 justify-around [gap:var(--gap)]", {
-              "animate-marquee flex-row": !vertical,
-              "animate-marquee-vertical flex-col": vertical,
-              "group-hover:[animation-play-state:paused]": pauseOnHover,
-              "[animation-direction:reverse]": reverse,
-            })}
+            className={cn("flex shrink-0 justify-around [gap:var(--gap)]", 
+              vertical ? "flex-col animate-marquee-vertical" : "flex-row animate-marquee",
+              directionClass,
+              pauseClass
+            )}
+            style={{ animationDuration: "var(--duration)" }}
           >
             {children}
           </div>
@@ -42,3 +44,4 @@ export default function MarqueeWrapper({
     </div>
   );
 }
+
