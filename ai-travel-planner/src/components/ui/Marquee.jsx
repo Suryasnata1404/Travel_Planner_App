@@ -2,14 +2,13 @@ import { cn } from "@/lib/utils";
 import React from "react";
 //import Marquee from "react-fast-marquee";
 
-
 export default function MarqueeWrapper({
   className ,
   reverse = false, // true = scrolls right, false = left
   pauseOnHover = false,
   children,
   vertical = false,
-  repeat = 2,
+  repeat = 4,
   ...props
 }) {
 
@@ -21,7 +20,7 @@ export default function MarqueeWrapper({
     <div
       {...props}
       className={cn(
-        "group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]",
+        "group flex overflow-hidden p-2 [--duration:20s] [--gap:1rem] [gap:var(--gap)]",
         vertical ? "flex-col" : "flex-row",
         className
       )}
