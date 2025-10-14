@@ -39,7 +39,7 @@ function Hero() {
          {/* 🖼️ Marquee Animation Section */}
       <div className="relative flex flex-col w-[90vw] md:w-[75vw] justify-center overflow-hidden mt-10">
         {/* Top row — moves right */}
-        <MarqueeWrapper pauseOnHover className="[--duration:50s]">
+        <MarqueeWrapper reverse pauseOnHover className="[--duration:20s]">
           {firstHalf.map((img, i) => (
             <img
               key={i}
@@ -52,8 +52,8 @@ function Hero() {
           ))}
         </MarqueeWrapper>
 
-        {/* Bottom row — moves right */}
-        <MarqueeWrapper reverse pauseOnHover className="[--duration:50s]">
+        {/* Bottom row — moves left */}
+        <MarqueeWrapper pauseOnHover className="[--duration:50s]">
           {secondHalf.map((img, i) => (
             <img
               key={i}
