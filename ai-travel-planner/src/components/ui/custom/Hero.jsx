@@ -3,7 +3,6 @@ import { Button } from '../button'
 import { Link } from 'react-router-dom'
 import MarqueeWrapper from '../Marquee';
 
-
 function Hero() {
 
   const images = [
@@ -45,7 +44,7 @@ function Hero() {
               key={i}
               src={img.src}
               alt={img.name}
-              className="w-[200px] md:w-[250px] mx-2 rounded-lg shadow-md hover:scale-110 transition-transform duration-300"
+              className="w-[200px] md:w-[250px]  rounded-lg shadow-md hover:scale-110 transition-transform duration-300"
               loading="lazy"
               role="presentation"
             />
@@ -53,13 +52,13 @@ function Hero() {
         </MarqueeWrapper>
 
         {/* Bottom row — moves left */}
-        <MarqueeWrapper pauseOnHover className="[--duration:50s]">
+        <MarqueeWrapper pauseOnHover className="[--duration:20s]">
           {secondHalf.map((img, i) => (
             <img
               key={i}
               src={img.src}
               alt={img.name}
-              className="w-[200px] md:w-[250px] mx-2 rounded-lg shadow-md hover:scale-110 transition-transform duration-300"
+              className="w-[200px] md:w-[250px]  rounded-lg shadow-md hover:scale-110 transition-transform duration-300"
               loading="lazy"
               role="presentation"
             />
