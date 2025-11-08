@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { Button } from "@/components/ui/button"
 import Hero from './components/ui/custom/Hero'
+import Footer from './components/ui/custom/Footer'
  
 
 function App() {
@@ -12,6 +13,9 @@ function App() {
     <> 
       {/* Hero */}
       <Hero/>
+
+      {/* Footer at the bottom */}
+      <Footer />
     </>
   )
 }
