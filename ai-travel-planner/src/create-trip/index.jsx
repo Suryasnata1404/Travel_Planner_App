@@ -175,22 +175,24 @@ function CreateTrip() {
   return (
     <>
     {pageLoading ? (
-      <p>Loading...</p>
+      <p className="text-center mt-20 text-[#1cacef] animate-pulse text-xl font-semibold">
+          Loading your adventure...
+        </p>
     ) : (
-    <div className="sm:px-10 md:px-32 lg:px-56 px-5 mt-10">
-
-          <h2 className="font-bold text-3xl">
-            Tell us your travel preferences🏕️🌴
+    <div className="sm:px-10 md:px-32 lg:px-56 px-5 mt-10 mb-20">
+          <h2 className="font-extrabold text-4xl text-center text-[#1b485c] drop-shadow-sm">
+            Plan Your Dream Trip with AI ✈️
           </h2>
-          <p className="mt-3 text-gray-500 text-xl">
-            Just provide some basic information, and our trip planner will generate
-            a customized itinerary based on your preferences.
+
+        <p className="mt-4 text-gray-500 text-lg text-center max-w-2xl mx-auto leading-relaxed">
+            Just share your travel vibes, and GoTravel will craft a smart,
+            personalized itinerary — built around your interests and budget.
           </p>
 
           <div className="mt-15 flex flex-col gap-10">
             <div>
               <h2 className="text-xl my-3 font-medium">
-                What is destination of choice?
+                🌍 Where do you want to go?
               </h2>
               <div className="relative">
               <Input
@@ -222,7 +224,7 @@ function CreateTrip() {
             {/* Trip Duration */}
             <div>
               <h2 className="text-xl my-3 font-medium">
-                How many days are you planning your trip?
+                📅 How many days are you planning your trip?
               </h2>
               <Input placeholder={"Ex.4"} 
                 type="number" 
@@ -255,15 +257,16 @@ function CreateTrip() {
 
             {/* Budget */}  
             <div>
-              <h2 className="text-xl my-3 font-medium">What is Your Budget?</h2>
+              <h2 className="text-xl my-3 font-medium">💰 What’s your travel budget?</h2>
               <div className="grid grid-cols-3 gap-5 mt-5">
                 {SelectBudgetOptions.map((item, index) => (
                   <div
                     key={index}
                     onClick={() => handleInputChange("budget", item.title)}
-                    className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg 
-                      ${formData?.budget === item.title && "shadow-lg border-black"}
-                    `}
+                    className={`p-4 border cursor-pointer rounded-lg transition-all duration-300 hover:shadow-lg hover:bg-[#f0fbff] ${
+                      formData?.budget === item.title &&
+                      "shadow-lg border-[#0ba5e9] bg-[#e0f7ff]"
+                    }`}
                   >
                     <h2 className="text-4xl">{item.icon}</h2>
                     <h2 className="font-bold text-lg">{item.title}</h2>
@@ -275,15 +278,18 @@ function CreateTrip() {
 
             {/* Travel Companions */}
             <div>
-              <h2 className='text-xl my-3 font-medium'>Who do you plan on traveling with on your next adventure?</h2>
+              <h2 className='text-xl my-3 font-medium'>🧭 Who do you plan on traveling with on your next adventure?</h2>
               <div className='grid grid-cols-3 gap-5 mt-5'>
                 {SelectTravelList.map((item, index) => (
                   <div 
                     key={index} 
-                    onClick={() => handleInputChange("traveler", item.people)}
-                    className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg 
-                      ${formData?.traveler === item.people && "shadow-lg border-black"}
-                    `}
+                    onClick={() =>
+                      handleInputChange("traveler", item.people)
+                    }
+                    className={`p-4 border cursor-pointer rounded-lg transition-all duration-300 hover:shadow-lg hover:bg-[#f0fbff] ${
+                      formData?.traveler === item.people &&
+                      "shadow-lg border-[#0ba5e9] bg-[#e0f7ff]"
+                    }`}
                   >
                     <h2 className='text-4xl'>{item.icon}</h2>
                     <h2 className='font-bold text-lg'>{item.title}</h2>
@@ -294,32 +300,44 @@ function CreateTrip() {
             </div>  
           </div>
 
-          <div className='my-10 justify-end flex'> 
-            <Button onClick={onGenerateTrip} disabled={loading}>
+          {/* Generate Button */}
+          <div className="my-12 justify-end flex">
+            <Button
+              onClick={onGenerateTrip}
+              disabled={loading}
+              className="px-6 py-3 bg-gradient-to-r from-[#219fd5] to-[#14a5b8] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all"
+            >
               {loading ? (
                 <div className="flex items-center gap-2">
-                  <AiOutlineLoading3Quarters className='h-7 w-7 animate-spin' />
+                  <AiOutlineLoading3Quarters className="h-6 w-6 animate-spin" />
                   <p>Generating...</p>
                 </div>
-              )  : "Generate Trip"}
-            </Button> 
-
+              ) : (
+                "Generate My Trip"
+              )}
+            </Button>
           </div>
           
+          {/* Login Dialog */}
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             
             <DialogContent>
               <DialogHeader>
-                <DialogDescription>
-                  <img src="/logo.svg" alt="logo" width="65px" className='items-center' />
+                <DialogDescription className="text-center">
+                  <img src="/logo.png" alt="logo" width="65px" className="mx-auto mb-2" />
                   <h2 className='font-bold text-lg'>Sign In to check out your travel plan</h2>
-                  <p>Sign in to the App with Google authentication securely</p>
-                  
+                  <h2 className="font-bold text-lg text-[#0f8fa0]">
+                    Sign In to unlock your travel plan ✨
+                  </h2>
+                  <p className="text-gray-500">
+                    Securely sign in with Google to save and view your trips.
+                  </p>
                   <Button
                     onClick={login}
-                    className="w-full mt-5 flex gap-4 items-center">
-                    <FcGoogle className="h-7 w-15" />
-                    Sign In With Google
+                    className="w-full mt-5 flex gap-4 items-center justify-center bg-white border hover:bg-[#f7f9fa] text-gray-700"
+                  >
+                    <FcGoogle className="h-6 w-6" />
+                    Sign In with Google
                   </Button>
 
                 </DialogDescription>
