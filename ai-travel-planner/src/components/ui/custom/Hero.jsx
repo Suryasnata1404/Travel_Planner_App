@@ -9,6 +9,7 @@ function Hero() {
     { name: "India Gate", src: "/Hero/india.jpg" },
     { name: "Stone henge", src: "/Hero/stonehenge.jpg" },
     { name: "Statue of Liberty", src: "/Hero/liberty.jpg" },
+    { name: "everest", src: "/Hero/Mount_Everest.jpg" },
     { name: "Eiffel Tower", src: "/Hero/Eiffel_Tower.jpg" },
     { name: "Udaipur", src: "/Hero/Udaipur.jpg" },
     { name: "sydney", src: "/Hero/sydney.jpg" },
