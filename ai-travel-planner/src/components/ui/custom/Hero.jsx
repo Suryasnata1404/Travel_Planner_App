@@ -30,7 +30,6 @@ function Hero() {
         
         <p className='text-xl text-gray-500 text-center '>Your personal trip planner and travel curator, creating custom itineraries tailored to your interests and budget.</p>
         
-
         <Link to="/create-trip">
           <Button
             className="bg-[#0b2e35] text-white font-semibold px-6 py-3 rounded-xl 
@@ -43,7 +42,6 @@ function Hero() {
         </Link>
 
         {/* <img src="/landing.png" alt="" className='w-[750px]' /> */}
-
 
          {/* 🖼️ Marquee Animation Section */}
       <div className="relative flex flex-col w-[90vw] md:w-[75vw] justify-center overflow-hidden mt-10">
@@ -74,7 +72,6 @@ function Hero() {
             />
           ))}
         </MarqueeWrapper>
-
 
         {/* Gradient edges for smooth fade */}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white"></div>

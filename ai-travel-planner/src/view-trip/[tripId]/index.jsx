@@ -32,7 +32,6 @@ function Viewtrip() {
         console.log("No such document");
         toast("No trip found")
     }
-
   }
 
   return (

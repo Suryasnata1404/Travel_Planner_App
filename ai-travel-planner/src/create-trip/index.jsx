@@ -116,7 +116,6 @@ function CreateTrip() {
     }
   };
 
-
   //Save to Firestore
   const SaveAiTrip = async(TripData) =>{
      
@@ -327,7 +326,6 @@ function CreateTrip() {
               </DialogHeader>
             </DialogContent>
           </Dialog>
-        
  
      </div>
     )}
