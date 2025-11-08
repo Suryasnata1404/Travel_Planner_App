@@ -53,8 +53,8 @@ function Header() {
   }
 
   return (
-    <div className="p-1 shadow-sm flex justify-between items-center px-5">
-      <img src="/logo.svg" width="60" height="70" />
+    <div className="p-1 shadow-sm flex justify-between items-center px-10">
+      <img src="/logo.png" width="200" height="250"  />
       <div>
         {user ? (
           <div className="flex items-center gap-3 ">
