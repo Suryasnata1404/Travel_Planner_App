@@ -324,8 +324,7 @@ function CreateTrip() {
             <DialogContent>
               <DialogHeader>
                 <DialogDescription className="text-center">
-                  <img src="/logo.png" alt="logo" width="65px" className="mx-auto mb-2" />
-                  <h2 className='font-bold text-lg'>Sign In to check out your travel plan</h2>
+                  <img src="/logo.png" alt="logo" width="120px" className="mx-auto mb-2" />
                   <h2 className="font-bold text-lg text-[#0f8fa0]">
                     Sign In to unlock your travel plan ✨
                   </h2>
