@@ -13,7 +13,7 @@ function Hero() {
     { name: "Eiffel Tower", src: "/Hero/Eiffel_Tower.jpg" },
     { name: "Udaipur", src: "/Hero/Udaipur.jpg" },
     { name: "sydney", src: "/Hero/sydney.jpg" },
-    { name: "Machu Picchu", src: "/Hero/peru.jpg" },
+    { name: "Giza", src: "/Hero/giza.webp" },
     { name: "Taj Mahal", src: "/Hero/taj.webp" },
     { name: "Varanasi", src: "/Hero/Varanasi.jpg" },
     { name: "Chichen Itza", src: "/Hero/chichen.webp" },
