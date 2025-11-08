@@ -30,8 +30,7 @@ function Hero() {
         
         <p className='text-xl text-gray-500 text-center '>Your personal trip planner and travel curator, creating custom itineraries tailored to your interests and budget.</p>
         
-        {/* <Link to={'/create-trip'}><Button>Get Started, It's Free</Button></Link> */}
-        
+
         <Link to="/create-trip">
           <Button
             className="bg-[#0b2e35] text-white font-semibold px-6 py-3 rounded-xl 
@@ -43,22 +42,7 @@ function Hero() {
           </Button>
         </Link>
 
-        <Link to="/create-trip">
-          <Button
-            className="
-              bg-[#0b2e35] text-white px-6 py-3 rounded-xl font-semibold
-              shadow-md transition-all duration-300 ease-out
-              hover:scale-105 hover:shadow-[0_0_25px_#8be9fd]
-              hover:bg-[#0d3942] active:scale-95
-            "
-          >
-            Get Started, It's Free
-          </Button>
-        </Link>
-
-
         {/* <img src="/landing.png" alt="" className='w-[750px]' /> */}
-
 
 
          {/* 🖼️ Marquee Animation Section */}
